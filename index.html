@@ -222,7 +222,15 @@ var app = new Vue({
 document.body.onload = init();
 
 function dispa() {
-app.bagdisp=app.bags
+  if (app.bps > 20) {
+    app.bagdisp = Math.round(
+      app.bags + (Date.now() - oldtime) / 1000 * app.bps
+    );
+  } else {
+    app.bagdisp =
+      Math.round((app.bags + (Date.now() - oldtime) / 1000 * app.bps) * 10) /
+      10;
+  }
 }
 
 function baga() {
