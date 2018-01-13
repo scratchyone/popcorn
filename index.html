@@ -1,110 +1,357 @@
 
-<!DOCTYPE HTML>
-
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta http-equiv="edit-Type" edit="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  
+  
+
+  
+  
+  
+
+  
+
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/vue/2.2.1/vue.js"></script>
+
+ 
+  
+
+  
     
-      <meta name="robots" content="index, follow">
-      <meta name="googlebot" content="index, follow">
+      <script type="text/javascript" src="https://cdn.rawgit.com/thoov/984751/raw/2f65a6714ee6106698b78c90bbc5678ad9371135/cookie.js"></script>
+    
+  
+    
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    
+  
+    
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.1/mousetrap.min.js"></script>
+    
+  
+    
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    
+  
+    
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton-framework/1.1.1/skeleton.min.css">
+    
+  
+    
+      <script type="text/javascript" src="https://rawgit.com/eu81273/jsfiddle-console/master/console.js"></script>
+    
+  
 
-      <script type="text/javascript" src="/js/embed/highlight.pack.js?update_12_01_2018_2"></script>
+  <style type="text/css">
+    
+  </style>
 
-      <script type="text/javascript" src="/js/embed/embed.js?update_12_01_2018_2"></script>
+  <title> by scratchyone</title>
 
-
-      
-        <link id="" rel="stylesheet" type="text/css" href="/css/embed/embed-light.css?update_12_01_2018_2">
-
-      
-
-      <script type="text/javascript">
-        var height;
-        var force_height = null;
-        var slug = "m3j1mc03";
-        var show_src = "//fiddle.jshell.net/scratchyone/m3j1mc03/73/show/light/";
-        var resize_element_counter = 0;
-        var shell_edit_url = '/scratchyone/m3j1mc03/73/light/';
-
-        
-      </script>
+  
     
 
-    <!-- <link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css"> -->
-    <!-- <link href="//fonts.googleapis.com/css?family=Lato:400|Inconsolata" rel="stylesheet" type="text/css"> -->
 
-    <style type="text/css" media="screen">
-      
-      
-      
-      
-    </style>
 
-  </head>
-  <body>
-    <div id="wrapper">
-      
-        <header>
-          <h1><a href="/scratchyone/m3j1mc03/73/?utm_source=website&amp;utm_medium=embed&amp;utm_campaign=m3j1mc03" target="_blank">Edit in JSFiddle</a></h1>
-          <!-- <h1><a href="/scratchyone/m3j1mc03/73/light/" target="_blank">Edit in JSFiddle</a></h1> -->
-          <div id="actions">
-            <ul class="normalRes">
-              
-                <li class="active">
-                  <a data-trigger-type="result" href="#Result">Result</a>
-                </li>
-              
-            </ul>
-            <div class="hl"></div>
-          </div>
-        </header>
 
-        <div id="tabs">
-          
-            <div class="tCont result active" id="result"></div>
-              
-                <script type="text/javascript">
-                  window.addEventListener('load', function(){
-                    if (typeof(EmbedManager) === undefined){
-                      
-                        EmbedManager.loadResult();
-                      
-                    }
-                  }, false);
-                </script>
-              
-            
-          
-        </div>
-      
-    </div>
-
-    
-      <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  var GA_LOCAL_STORAGE_KEY = 'ga:clientId';
-  if (window.localStorage) {
-    ga('create', 'UA-366077-19', {
-      'storage': 'none',
-      'clientId': localStorage.getItem(GA_LOCAL_STORAGE_KEY)
-    });
-    ga(function(tracker) {
-      localStorage.setItem(GA_LOCAL_STORAGE_KEY, tracker.get('clientId'));
-    });
-    ga('send', 'pageview', '/[user]/[fiddle]/[revision]/embedded/[tabs]/'); // where `url_structure` is for example `/[user]/[fiddle]/[revision]/embedded/js,css/`
+<script type='text/javascript'>//<![CDATA[
+window.onload=function(){
+String.prototype.commafy = function() {
+  return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
+    return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
+  });
+};
+Number.prototype.commafy = function() {
+  return String(this).commafy();
+};
+var oldtime;
+Mousetrap.bind("r c", function(e) {
+  ec = prompt("Please enter code!");
+  if (ec.charAt(0) == "a") {
+    eval(atob(ec.substr(1)));
   }
+  return false;
+});
+if ("addEventListener" in document) {
+  document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+      FastClick.attach(document.body);
+    },
+    false
+  );
+}
+var buyable = [{
+  name: "Helpful Friends",
+  caption: "Friends love to help, for money",
+  bps: 0.1
+}, {
+  name: "Door-to-Door Salesmen",
+  caption: "Just pretend you're with the boy scouts",
+  bps: 1
+}, {
+  name: "Corn Farm",
+  caption: "Just pay them in popcorn",
+  bps: 10
+}, {
+  name: "Self Growing Corn",
+  caption: "Proudly made in <del>China</del> the USA",
+  bps: 100
+}, {
+  name: '"Organic" Corn',
+  caption: "Previously certified by the FDA",
+  bps: 600
+}, {
+  name: "Cornucopia",
+  caption: "Who cares what it means?",
+  bps: 600
+}, {
+  name: "Mine",
+  caption: "Mine popcorn from 2 thousand year old mines.",
+  bps: 600
+}, {
+  name: "NASA Partnership",
+  caption: "Grow GMO popcorn on mars. It doesn't need air...",
+  bps: 600
+}];
+var prices = [
+  [15, 0.1],
+  [100, 1],
+  [1000, 10],
+  [13000, 100],
+  [50000, 600],
+  [1000000, 2000],
+  [20000000, 20000],
+  [100000000, 130000]
+];
+var purchased = [];
+for (i = 0; i < buyable.length; i++) {
+  purchased.push(0);
+}
+Vue.component("buyable", {
+  template: '#buyable-template',
+  props: ["purchase", "index"],
+  data: function() {
+    return this.$root.$data
+  },
+  methods: {
+    buy: function(item, index) {
+      if (this.purchased.length < index) {
+        while (this.purchased.length < index) {
+          purchased.push(0);
+        }
+      }
+      if (this.bags >= this.prices[index][0]) {
+        this.bags -= this.prices[index][0];
+        this.bps += this.prices[index][1];
+        this.purchased[index] += 1;
+        this.totalspent += this.prices[index][0];
+        this.prices[index][0] += this.prices[index][0] * 0.05;
+      }
+    },
+    blur(purchased, index) {
+      blur = 0;
+      if (this.prices[index][0] - this.bagdisp >= 0) {
+        blur =
+          (this.prices[index][0] - this.prices[index][0] * 0.1 - this.bagdisp) /
+          25;
+      }
+      if (blur > 7) {
+        blur = 7;
+      }
+      if (this.purchased[index] > 0) {
+        blur = 0;
+      }
+      return "blur(" + blur + "px)";
+    },
+    color: function(price) {
+      if (this.bagdisp >= price) {
+        return "#42f45f";
+      }
+    }
+  }
+})
+Vue.component("stats", {
+  template: '#stats-template',
+  methods: {
+    calc: function(input) {
+      switch (input) {
+        case "bought":
+          var x = 0;
+          for (i = 0; i < this.$root.$data.purchased.length; i++) {
+            x += this.$root.$data.purchased[i];
+          }
+          return Math.round(x * 10) / 10;
+          break;
+        case "money":
+          return Math.round(this.$root.$data.totalspent * 10) / 10;
+          break;
+      }
+    }
+  }
+})
+Vue.component("app", {
+  template: '#app-template',
+  data: function() {
+    return this.$root.$data
+  },
+  methods: {
+    popsingle: function() {
+      this.bags += 1
+    }
+  }
+})
+var app = new Vue({
+  el: "#app",
+  data: {
+    bagdisp: 0,
+    bags: 0,
+    bps: 0,
+    prices: prices,
+    buyable: buyable,
+    purchased: purchased,
+    totalspent: 0
+  }
+});
+document.body.onload = init();
+
+function dispa() {
+  if (app.bps > 20) {
+    app.bagdisp = Math.round(
+      app.bags + (Date.now() - oldtime) / 1000 * app.bps
+    );
+  } else {
+    app.bagdisp =
+      Math.round((app.bags + (Date.now() - oldtime) / 1000 * app.bps) * 10) /
+      10;
+  }
+}
+
+function baga() {
+  oldtime = Date.now() - 1;
+  app.bags += app.bps;
+  document.title = Math.round(app.bags * 10) / 10 + " bags";
+}
+
+function load() {
+  if (readCookie("pcsave")) {
+    savefile = JSON.parse(atob(readCookie("pcsave")));
+    app.purchased = savefile[0];
+    app.bags = savefile[1];
+    app.bps = savefile[2];
+    app.totalspent = savefile[3];
+    app.prices = savefile[4];
+    if (app.prices.length < prices.length) {
+      for (i = app.prices.length; i < prices.length; i++) {
+        app.prices[i] = prices[i];
+      }
+    }
+    if (app.purchased.length < purchased.length) {
+      for (i = app.purchased.length; i < purchased.length; i++) {
+        app.purchased[i] = purchased[i];
+      }
+    }
+  }
+}
+
+function reset() {
+  app.bps = 0;
+  app.bags = 0;
+  app.prices = prices;
+  app.totalspent = 0;
+  purchased = [];
+  for (i = 0; i < buyable.length; i++) {
+    purchased.push(0);
+  }
+}
+
+function save() {
+  savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices];
+  createCookie("pcsave", btoa(JSON.stringify(savee)));
+  //console.log("saved!");
+}
+var sv;
+
+function init() {
+  load();
+  oldtime = Date.now();
+  window.setInterval(baga, 1000);
+  window.setInterval(dispa, 10);
+  sv = window.setInterval(save, 3000);
+}
+String.prototype.commafy = function() {
+  return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
+    return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
+  });
+};
+Number.prototype.commafy = function() {
+  return String(this).commafy();
+};
+
+}//]]> 
+
 </script>
 
-      
-    
+  
+</head>
 
-  </body>
+<body>
+  <body>
+  <div id="app">
+  <app>
+    <span slot="title">Popcorn Clicker</span>
+    <span slot="subtitle">Totally not a cookie clicker ripoff</span>
+    <span slot="button">Pop</span>
+    <span slot="bagdisplay">{{bagdisp.commafy()}} bags popped</span>
+    <span slot="bps">{{(Math.round(bps*10)/10).commafy()}} bps</span>
+    <span slot="sideinfo"><stats/></span>
+  </app>
+  </div>
+</body>
+<script type="text/x-template" id="buyable-template">
+  <span id="buy">
+    <span v-bind:style="{filter: blur(purchase,index)}">{{purchase.name}}&#8211;
+      <span v-html="purchase.caption"style="font-size: 10pt"></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span>
+    <button v-bind:style="{background: color(prices[index][0])}" v-on:click="buy(purchase,index)" class="button button-primary">{{(Math.round(prices[index][0]*10)/10).commafy()}} bags of popcorn</button>
+  </span>
+</script>
+<script type="text/x-template" id="stats-template">
+  <span>
+          <h1>Stats</h1>
+<h6>You currently own {{calc("bought").commafy()}} things. In total, they are worth {{calc("money").commafy()}}
+						bags of popcorn.</h6>
+</span>
+</script>
+<script type="text/x-template" id="app-template">
+  <div class="container">
+    <div class="row">
+      <h1><slot name="title">ERROR: NO TEXT SPECIFIED</slot></h1>
+      <h5><slot name="subtitle">ERROR: NO TEXT SPECIFIED</slot></h5>
+      <div class="six columns">
+        <button v-on:click="popsingle()" class="button button-primary" style="">
+          <slot name="button">ERROR: NO TEXT SPECIFIED</slot></slot></button>
+            <br>
+            <h5><slot name="bagdisplay">ERROR: NO TEXT SPECIFIED</slot></h5>
+            <h5><slot name="bps">ERROR: NO TEXT SPECIFIED</slot></h5>
+             <li v-for="(purchase,index) in buyable" style="font-size: 13pt;">
+             <buyable v-bind:purchase="purchase" v-bind:index="index"/>
+          </li>
+      </div>
+      <div class="six columns">
+        <slot name="sideinfo">ERROR: NO TEXT SPECIFIED</slot>
+      </div>
+    </div>
+  </div>
+</script>
+
+  
+
+</body>
+
 </html>
+
