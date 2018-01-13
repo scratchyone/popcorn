@@ -70,7 +70,6 @@
     </script>
     <script type='text/javascript'>
         //<![CDATA[
-        var click = 1
         var needreset = 0.1
         String.prototype.commafy = function() {
             return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
@@ -229,7 +228,7 @@
             },
             methods: {
                 popsingle: function() {
-                    this.bags += click
+                    this.bags += app.upgrades.click
                 }
             }
         })
@@ -242,16 +241,19 @@
                 prices: prices,
                 buyable: buyable,
                 purchased: purchased,
-                totalspent: 0
+                totalspent: 0,
+                upgrades: {
+                    click: 1
+                }
             }
         });
         document.body.onload = init();
 
         function upgrade() {
             if (app.purchased[2] >= 1) {
-                click = 2;
+                app.upgrades.click = 2;
             } else {
-                click = 1
+                app.upgrades.click = 1
             }
         }
 
@@ -277,9 +279,9 @@
                 app.bps = savefile[2];
                 app.totalspent = savefile[3];
                 app.prices = savefile[4];
-                if (savefile[5] != needreset) {
-                    swal("Don't click away!", "Since you last played, there was an update that might break your game. You might own things that you never bought, or not own things that you did buy.", "warning");
-                    swal("Don't click away!", "Since you last played, there was an update that might break your game. You might own things that you never bought, or not own things that you did buy. Just click \"Fix it\", and it will be fixed. You may lose your upgrades.", "warning", {
+                app.upgraded = savefile[5];
+                if (savefile[6] != needreset) {
+                    swal("Don't click away!", "Since you last played, there was an update that might break your game. You might own things that you never bought, or not own things that you did buy. Just click \"Fix it\", and it will be fixed. Your upgrades will disappear, but they will still work. Don't buy them again.", "warning", {
                         buttons: {
                             cancel: "Ok, I'm fine with issues.",
                             catch: {
@@ -317,9 +319,12 @@
             app.prices = prices;
             app.totalspent = 0;
             app.purchased = [];
+            app.upgrades = {}
+            upgrade()
             for (i = 0; i < buyable.length; i++) {
                 purchased.push(0);
             }
+            location.reload()
         }
 
         function resetfix() {
@@ -331,7 +336,7 @@
         }
 
         function save() {
-            savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices, needreset];
+            savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices, app.upgrades, needreset];
             createCookie("pcsave", btoa(JSON.stringify(savee)));
             //console.log("saved!");
         }
