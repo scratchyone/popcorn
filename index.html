@@ -256,7 +256,6 @@ function upgrade() {
 }
 
 function fix() {
-    console.log(version)
     switch (version) {
         case 0.0:
             app.prices.splice(2, 0, prices[2]);
@@ -288,7 +287,7 @@ function load() {
         app.bps = savefile[2];
         app.totalspent = savefile[3];
         app.prices = savefile[4];
-        if (savefile[5] != needreset) {
+        if (parseInt(savefile[5]) >= needreset) {
             version = savefile[5]
             swal("Don't click away!", "Since you last played, there was an update that might break your game. You might own things that you never bought, or not own things that you did buy. Just click \"Fix it\", and the intelligent repair system should resolve all of the conflicts.", "warning", {
                 buttons: {
