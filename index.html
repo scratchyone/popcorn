@@ -69,7 +69,7 @@
         </div>
     </script>
     <script type='text/javascript'>
-var click = 1
+	    var click = 1
 var needreset = 0.1
 var version
 String.prototype.commafy = function() {
@@ -103,7 +103,7 @@ var buyable = [{
     bps: 1
 }, {
     name: "Upgrade: Double Popper",
-    caption: "Get 2 corn per click! There's no fire risk",
+    caption: "Get 2 bags per click! There's no fire risk",
     bps: 1
 }, {
     name: "Corn Farm",
@@ -357,7 +357,7 @@ function init() {
     upgrade()
     oldtime = Date.now();
     window.setInterval(baga, 1000);
-    window.setInterval(dispa, 10);
+    window.setInterval(dispa, 100);
     sv = window.setInterval(save, 3000);
 }
 String.prototype.commafy = function() {
