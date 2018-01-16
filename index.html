@@ -311,6 +311,7 @@ function load() {
     app.prices = savefile[4];
     if (parseInt(savefile[5])>= needreset) {
     version=savefile[5]
+   alert(savefile[5])
       swal("Don't click away!", "Since you last played, there was an update that might break your game. You might own things that you never bought, or not own things that you did buy. Just click \"Fix it\", and the intelligent repair system should resolve all of the conflicts.", "warning", {
           buttons: {
             cancel: "Ok, I'm fine with issues.",
