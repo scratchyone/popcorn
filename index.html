@@ -40,8 +40,8 @@
 <h6>You currently own {{calc("bought").commafy()}} things. In total, they are worth {{calc("money").commafy()}}
 						bags of popcorn.</h6>
             <div v-if="cheatmode">
-            <a class="button" onclick="app.bps=prompt("BPS?")">BPS</a>
-            <a class="button" onclick="app.bags=prompt("Bags?")">BPS</a>
+            <a class="button" onclick="app.bps=prompt('BPS?')">BPS</a>
+            <a class="button" onclick="app.bags=prompt('Bags?')">Bags</a>
             </div>
 </span></script>
     <script type="text/x-template" id="app-template">
@@ -224,6 +224,9 @@ Vue.component("buyable", {
 })
 Vue.component("stats", {
   template: '#stats-template',
+    data: function() {
+    return this.$root.$data
+  },
   methods: {
     calc: function(input) {
       switch (input) {
