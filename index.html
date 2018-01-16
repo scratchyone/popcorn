@@ -35,12 +35,11 @@
     <span v-bind:style="{filter: blur(purchase,index)}">{{purchase.name}}&#8211;
       <span v-html="purchase.caption"style="font-size: 10pt"></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span> <button v-bind:style="{background: color(prices[index][0])}" v-on:click="buy(purchase,index)" class="button button-primary">{{(Math.round(prices[index][0]*10)/10).commafy()}} bags of popcorn</button> </span>
     </script>
-    <script type="text/x-template" id="stats-template"> <span>
-  <span>
+    <script type="text/x-template" id="stats-template">  <span>
           <h1>Stats</h1>
 <h6>You currently own {{calc("bought").commafy()}} things. In total, they are worth {{calc("money").commafy()}}
 						bags of popcorn.</h6>
-            <div v-if="cheatmode==1">
+            <div v-if="cheatmode">
             <a class="button" onclick="app.bps=prompt("BPS?")">BPS</a>
             <a class="button" onclick="app.bags=prompt("Bags?")">BPS</a>
             </div>
