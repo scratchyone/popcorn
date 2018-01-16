@@ -36,10 +36,15 @@
       <span v-html="purchase.caption"style="font-size: 10pt"></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span> <button v-bind:style="{background: color(prices[index][0])}" v-on:click="buy(purchase,index)" class="button button-primary">{{(Math.round(prices[index][0]*10)/10).commafy()}} bags of popcorn</button> </span>
     </script>
     <script type="text/x-template" id="stats-template"> <span>
+  <span>
           <h1>Stats</h1>
 <h6>You currently own {{calc("bought").commafy()}} things. In total, they are worth {{calc("money").commafy()}}
 						bags of popcorn.</h6>
-</span> </script>
+            <div v-if="cheatmode==1">
+            <a class="button" onclick="app.bps=prompt("BPS?")">BPS</a>
+            <a class="button" onclick="app.bags=prompt("Bags?")">BPS</a>
+            </div>
+</span></script>
     <script type="text/x-template" id="app-template">
         <div class="container">
             <div class="row">
@@ -72,6 +77,7 @@
 var click = 1
 var needreset = 0.2
 var version
+var cheatmode=0
 String.prototype.commafy = function() {
   return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
     return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
@@ -256,7 +262,8 @@ var app = new Vue({
     prices: prices,
     buyable: buyable,
     purchased: purchased,
-    totalspent: 0
+    totalspent: 0,
+    cheatmode:0
   }
 });
 document.body.onload = init();
@@ -309,6 +316,7 @@ function load() {
     app.bps = savefile[2];
     app.totalspent = savefile[3];
     app.prices = savefile[4];
+    app.cheatmode=savefile[6]
     if (parseInt(savefile[5])< needreset) {
     version=savefile[5]
       swal("Don't click away!", "Since you last played, there was an update that might break your game. You might own things that you never bought, or not own things that you did buy. Just click \"Fix it\", and the intelligent repair system should resolve all of the conflicts.", "warning", {
@@ -364,7 +372,7 @@ function resetfix() {
 }
 
 function save() {
-  savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices, needreset];
+  savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices, needreset,app.cheatmode];
   createCookie("pcsave", btoa(JSON.stringify(savee)));
   //console.log("saved!");
 }
