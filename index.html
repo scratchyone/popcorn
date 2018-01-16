@@ -42,6 +42,7 @@
             <div v-if="cheatmode">
             <a class="button" onclick="app.bps=prompt('BPS?')">BPS</a>
             <a class="button" onclick="app.bags=prompt('Bags?')">Bags</a>
+            <a class="button" onclick="reset()">Reset</a>
             </div>
 </span></script>
     <script type="text/x-template" id="app-template">
@@ -92,6 +93,13 @@ Mousetrap.bind("r c", function(e) {
     eval(atob(ec.substr(1)));
   }
   return false;
+});
+Mousetrap.bind("m", function(e) {
+if(app.cheatmode==1) {
+  app.cheatmode=0
+} else {
+  app.cheatmode=1
+}
 });
 if ("addEventListener" in document) {
   document.addEventListener(
