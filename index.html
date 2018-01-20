@@ -84,10 +84,8 @@
         </div>
     </script>
     <script type='text/javascript'>
-var click = 1
-var needreset = 0.2
-var version
-var cheatmode=0
+let up={click:1,luck:0};
+let needreset = 0.2;
 String.prototype.commafy = function() {
   return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
     return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
@@ -106,9 +104,9 @@ Mousetrap.bind("r c", function(e) {
 });
 Mousetrap.bind("m", function(e) {
 if(app.cheatmode==1) {
-  app.cheatmode=0
+  app.cheatmode=0;
 } else {
-  app.cheatmode=1
+  app.cheatmode=1;
 }
 });
 if ("addEventListener" in document) {
@@ -174,14 +172,14 @@ var prices = [
   [100000000, 130000]
 ];
 var purchased = [];
-for (i = 0; i < buyable.length; i++) {
+for (let i = 0; i < buyable.length; i++) {
   purchased.push(0);
 }
 Vue.component("buyable", {
   template: '#buyable-template',
   props: ["purchase", "index"],
   data: function() {
-    return this.$root.$data
+    return this.$root.$data;
   },
   methods: {
     buy: function(item, index) {
@@ -191,31 +189,34 @@ Vue.component("buyable", {
         }
       }
       if (this.bags >= this.prices[index][0]) {
-        b = 1
+        let b = 1;
         if (this.purchased[index] > 0) {
           switch (index) {
             case 2:
-              noup()
-              b = 0
+              noup();
+              b = 0;
               break;
               case 5:
-              noup()
-              b = 0
+              noup();
+              b = 0;
               break;
           }
         }
         if (b == 1) {
-        if (rand(0,200)==1) {notie.alert({ type: 'success', text: "It's free!" })}      else {
+        if (up.luck==1 && Math.floor(Math.random() * 101)==1) {
+          notie.alert({ type: 'success', text: "It's free!" });
+        }
+          else {
           this.bags -= this.prices[index][0];
           }
           this.bps += this.prices[index][1];
           this.purchased[index] += 1;
           this.totalspent += this.prices[index][0];
           this.prices[index][0] += this.prices[index][0] * 0.05;
-          upgrade()
+          upgrade();
         }
       } else {
-      notie.alert({ type: 'info', text: "You can't afford that!" })
+      notie.alert({ type: 'info', text: "You can't afford that!" });
       }
     },
     blur(purchased, index) {
@@ -239,18 +240,18 @@ Vue.component("buyable", {
       }
     }
   }
-})
+});
 Vue.component("stats", {
   template: '#stats-template',
     data: function() {
-    return this.$root.$data
+    return this.$root.$data;
   },
   methods: {
     calc: function(input) {
       switch (input) {
         case "bought":
           var x = 0;
-          for (i = 0; i < this.$root.$data.purchased.length; i++) {
+          for (let i = 0; i < this.$root.$data.purchased.length; i++) {
             x += this.$root.$data.purchased[i];
           }
           return Math.round(x * 10) / 10;
@@ -261,18 +262,18 @@ Vue.component("stats", {
       }
     }
   }
-})
+});
 Vue.component("game", {
   template: '#app-template',
   data: function() {
-    return this.$root.$data
+    return this.$root.$data;
   },
   methods: {
     popsingle: function() {
-      this.bags += click
+      this.bags += up.click;
     }
   }
-})
+});
 var app = new Vue({
   el: "#application",
   data: {
@@ -290,9 +291,14 @@ document.body.onload = init();
 
 function upgrade() {
   if (app.purchased[2] >= 1) {
-    click = 2;
+    up.click = 2;
   } else {
-    click = 1
+    up.click = 1;
+  }
+    if (app.purchased[5] >= 1) {
+    up.luck = 1;
+  } else {
+    up.luck = 0;
   }
 }
 function fix() {
@@ -300,8 +306,8 @@ switch(version) {
 case 0.0: 
 app.prices.splice( 2, 0, prices[2]);
 app.purchased.splice( 2, 0, 0);
-version=0.1
-fix()
+version=0.1;
+fix();
 break;
 case 0.1: 
 app.prices.splice( 4, 0, prices[4]);
@@ -330,15 +336,15 @@ function baga() {
 
 function load() {
   if (readCookie("pcsave")) {
-    savefile = JSON.parse(atob(readCookie("pcsave")));
+    let savefile = JSON.parse(atob(readCookie("pcsave")));
     app.purchased = savefile[0];
     app.bags = savefile[1];
     app.bps = savefile[2];
     app.totalspent = savefile[3];
     app.prices = savefile[4];
-    app.cheatmode=savefile[6]
+    app.cheatmode=savefile[6];
     if (savefile[5]< needreset) {
-    version=savefile[5]
+    let version=savefile[5];
       swal("Don't click away!", "Since you last played, there was an update that might break your game. You might own things that you never bought, or not own things that you did buy. Just click \"Fix it\", and the intelligent repair system should resolve all of the conflicts.", "warning", {
           buttons: {
             cancel: "Ok, I'm fine with issues.",
@@ -352,7 +358,7 @@ function load() {
           switch (value) {
 
             case "fix":
-            fix()
+            fix();
               swal("Fixed", "The issue should be fixed! Your upgrades and purchased should still be correct.","success").then((value) => {
               });
               break;
@@ -360,12 +366,12 @@ function load() {
         });
     }
     if (app.prices.length < prices.length) {
-      for (i = app.prices.length; i < prices.length; i++) {
+      for (let i = app.prices.length; i < prices.length; i++) {
         app.prices[i] = prices[i];
       }
     }
     if (app.purchased.length < purchased.length) {
-      for (i = app.purchased.length; i < purchased.length; i++) {
+      for (let i = app.purchased.length; i < purchased.length; i++) {
         app.purchased[i] = purchased[i];
       }
     }
@@ -378,7 +384,7 @@ function reset() {
   app.prices = prices;
   app.totalspent = 0;
   app.purchased = [];
-  for (i = 0; i < buyable.length; i++) {
+  for (let i = 0; i < buyable.length; i++) {
     purchased.push(0);
   }
 }
@@ -386,29 +392,27 @@ function reset() {
 function resetfix() {
   app.prices = prices;
   app.purchased = [];
-  for (i = 0; i < buyable.length; i++) {
+  for (let i = 0; i < buyable.length; i++) {
     purchased.push(0);
   }
 }
 
 function save() {
-  savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices, needreset,app.cheatmode];
+  const savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices, needreset,app.cheatmode];
   createCookie("pcsave", btoa(JSON.stringify(savee)));
   //console.log("saved!");
 }
 
 function noup() {
-notie.alert({ type: 'info', text: 'You can only buy one of each upgrade!' })
+notie.alert({ type: 'info', text: 'You can only buy one of each upgrade!' });
 }
-var sv;
-
 function init() {
   load();
-  upgrade()
+  upgrade();
   oldtime = Date.now();
   window.setInterval(baga, 1000);
   window.setInterval(dispa, 10);
-  sv = window.setInterval(save, 3000);
+  let sv = window.setInterval(save, 3000);
 }
 String.prototype.commafy = function() {
   return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
