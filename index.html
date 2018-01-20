@@ -86,12 +86,12 @@
     <script type='text/javascript'>
 let up={click:1,luck:0};
 let needreset = 0.2;
-String.prototype.commafy = function() {
+String.prototype.commafy = () => {
   return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
     return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
   });
 };
-Number.prototype.commafy = function() {
+Number.prototype.commafy = () => {
   return String(this).commafy();
 };
 var oldtime;
@@ -112,7 +112,7 @@ if(app.cheatmode==1) {
 if ("addEventListener" in document) {
   document.addEventListener(
     "DOMContentLoaded",
-    function() {
+    () => {
       FastClick.attach(document.body);
     },
     false
@@ -178,7 +178,7 @@ for (let i = 0; i < buyable.length; i++) {
 Vue.component("buyable", {
   template: '#buyable-template',
   props: ["purchase", "index"],
-  data: function() {
+  data: () => {
     return this.$root.$data;
   },
   methods: {
@@ -243,7 +243,7 @@ Vue.component("buyable", {
 });
 Vue.component("stats", {
   template: '#stats-template',
-    data: function() {
+    data: () => {
     return this.$root.$data;
   },
   methods: {
@@ -265,11 +265,11 @@ Vue.component("stats", {
 });
 Vue.component("game", {
   template: '#app-template',
-  data: function() {
+  data: () => {
     return this.$root.$data;
   },
   methods: {
-    popsingle: function() {
+    popsingle: () => {
       this.bags += up.click;
     }
   }
@@ -414,12 +414,12 @@ function init() {
   window.setInterval(dispa, 10);
   let sv = window.setInterval(save, 3000);
 }
-String.prototype.commafy = function() {
+String.prototype.commafy = () => {
   return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
     return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
   });
 };
-Number.prototype.commafy = function() {
+Number.prototype.commafy = () => {
   return String(this).commafy();
 };
 
