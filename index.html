@@ -232,7 +232,7 @@ Vue.component("buyable", {
       if (this.purchased[index] > 0) {
         blur = 0;
       }
-      return "blur(" + blur + "px)";
+      return `blur(${blur}px)`;
     },
     color: function(price) {
       if (this.bagdisp >= price) {
@@ -269,7 +269,7 @@ Vue.component("game", {
     return this.$root.$data;
   },
   methods: {
-    popsingle: () => {
+    popsingle: function() {
       this.bags += up.click;
     }
   }
