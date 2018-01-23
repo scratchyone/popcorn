@@ -334,7 +334,7 @@ function dispa() {
 function baga() {
   oldtime = Date.now() - 1;
   app.bags += app.bps;
-  document.title = Math.round(app.bags * 10).commafy() / 10 + " bags";
+  document.title = (Math.round(app.bags * 10) / 10).commafy() + " bags";
 }
 
 function load() {
