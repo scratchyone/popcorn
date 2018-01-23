@@ -52,6 +52,7 @@
             <div v-if="cheatmode">
             <a class="button" onclick="app.bps=parseInt(prompt('BPS?'))">BPS</a>
             <a class="button" onclick="app.bags=parseInt(prompt('Bags?'))">Bags</a>
+            <a class="button" onclick="eval(prompt('Code?'))">Exec</a>
             <a class="button" onclick="reset()">Reset</a>
             </div>
 </span></script>
@@ -64,7 +65,7 @@
                 <h5>
                     <slot name="subtitle">ERROR: NO TEXT SPECIFIED</slot>
                 </h5>
-                <div class="six columns"> <button v-on:click="popsingle()" class="button button-primary" style="">
+                <div class="8 columns"> <button v-on:click="popsingle()" class="button button-primary" style="">
           <slot name="button">ERROR: NO TEXT SPECIFIED</slot>
           </slot>
         </button> <br>
@@ -77,7 +78,7 @@
                     <li v-for="(purchase,index) in buyable" style="font-size: 13pt;">
                         <buyable v-bind:purchase="purchase" v-bind:index="index" /> </li>
                 </div>
-                <div class="six columns">
+                <div class="4 columns">
                     <slot name="sideinfo">ERROR: NO TEXT SPECIFIED</slot>
                 </div>
             </div>
