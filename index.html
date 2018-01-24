@@ -408,7 +408,7 @@ function updatetitle() {
   for(let i=0;i<app.prices.length;i++) {
     console.log(i)
     if(chosenitem==0&&app.prices[i][0]>app.bags) {
-      chosenitem=app.prices[i][0];
+      chosenitem=Math.round(app.prices[i][0]);
     }
   }
     if(chosenitem!=0) {
