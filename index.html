@@ -343,7 +343,7 @@ function dispa() {
 function baga() {
   oldtime = Date.now() - 1;
   app.bags += app.bps;
-  updatetitle()
+  window.setTimeout(updatetitle(),0)
 }
 
 function load() {
