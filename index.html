@@ -412,7 +412,7 @@ function updatetitle() {
     }
   }
     if(chosenitem!=0) {
-      title=`(${(app.bags/chosenitem)*100}%) `
+      title=`(${Math.round((app.bags/chosenitem)*100)}%) `
     }
     console.log(chosenitem+"title")
   title=title+(Math.round(app.bags * 10) / 10).commafy() + " bags"
