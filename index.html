@@ -343,7 +343,7 @@ function dispa() {
 function baga() {
   oldtime = Date.now() - 1;
   app.bags += app.bps;
-  document.title = (Math.round(app.bags * 10) / 10).commafy() + " bags";
+  updatetitle()
 }
 
 function load() {
@@ -399,10 +399,25 @@ function reset() {
   for (let i = 0; i < buyable.length; i++) {
     purchased.push(0);
   }
-  save()
+  save();
   location.reload()
 }
-
+function updatetitle() {
+  let chosenitem=0;
+  let title=""
+  for(let i=0;i<app.prices.length;i++) {
+    console.log(i)
+    if(chosenitem==0&&app.prices[i][0]>app.bags) {
+      chosenitem=app.prices[i][0];
+    }
+  }
+    if(chosenitem!=0) {
+      title=`(${(app.bags/chosenitem)*100}%) `
+    }
+    console.log(chosenitem+"title")
+  title=title+(Math.round(app.bags * 10) / 10).commafy() + " bags"
+  document.title = title;
+}
 function resetfix() {
   app.prices = prices;
   app.purchased = [];
