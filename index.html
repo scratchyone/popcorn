@@ -337,7 +337,7 @@ function dispa() {
       Math.round((app.bags + (Date.now() - oldtime) / 1000 * app.bps) * 10) /
       10;
   }
-  document.title = (Math.round(app.bagdisp * 10) / 10).commafy() + " bags";
+  document.title = (Math.round(app.bagdisp)).commafy() + " bags";
 }
 
 function baga() {
