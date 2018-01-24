@@ -43,7 +43,7 @@
     </body>
     <script type="text/x-template" id="buyable-template"> <span id="buy">
     <span v-bind:style="{filter: blur(purchase,index)}">{{purchase.name}}&#8211;
-      <span v-html="purchase.caption"style="font-size: 10pt"></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span> <button v-bind:style="color(prices[index][0])" v-on:click="buy(purchase,index)" class="button button-primary">{{(Math.round(prices[index][0]*10)/10).commafy()}} bags of popcorn</button> </span>
+      <span v-html="purchase.caption"style="font-size: 10pt"></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span><br> <button v-bind:style="color(prices[index][0])" v-on:click="buy(purchase,index)" class="button button-primary">{{(Math.round(prices[index][0]*10)/10).commafy()}} bags of popcorn</button> </span>
     </script>
     <script type="text/x-template" id="stats-template">  <span>
           <h1>Stats</h1>
@@ -65,7 +65,7 @@
                 <h5>
                     <slot name="subtitle">ERROR: NO TEXT SPECIFIED</slot>
                 </h5>
-                <div class="8 columns"> <button v-on:click="popsingle()" class="button button-primary" style="">
+                <div class="seven columns"> <button v-on:click="popsingle()" class="button button-primary" style="">
           <slot name="button">ERROR: NO TEXT SPECIFIED</slot>
           </slot>
         </button> <br>
@@ -78,7 +78,7 @@
                     <li v-for="(purchase,index) in buyable" style="font-size: 13pt;">
                         <buyable v-bind:purchase="purchase" v-bind:index="index" /> </li>
                 </div>
-                <div class="4 columns">
+                <div class="five columns">
                     <slot name="sideinfo">ERROR: NO TEXT SPECIFIED</slot>
                 </div>
             </div>
@@ -236,7 +236,7 @@ Vue.component("buyable", {
       return `blur(${blur}px)`;
     },
     color: function(price) {
-      if(price<app.bagdisp) {
+      if(price<this.bagdisp) {
         return {"background-color": "#42f45f"}
       } else {
         let percent = (this.bagdisp/price)*100
