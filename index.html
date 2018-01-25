@@ -36,6 +36,9 @@
         .notie-background-warning {
             background: #ffce65;
         }
+        #pop:active {
+          transform: scale(0.95);
+        }
 
     </style>
     <title>Popcorn Clicker</title>
@@ -45,7 +48,7 @@
 
     <body>
         <div id="application">
-            <game> <span slot="title">Popcorn Clicker</span> <span slot="subtitle">Totally not a cookie clicker ripoff</span> <span slot="button">Pop</span> <span slot="bagdisplay">{{bagdisp.commafy()}} bags popped</span> <span slot="bps">{{(Math.round(bps*10)/10).commafy()}} bps</span> <span slot="sideinfo"><stats/></span> </game>
+            <game> <span slot="title">Popcorn Clicker</span> <span slot="subtitle">Totally not a cookie clicker ripoff</span> <span slot="button"><img id="pop" src="https://southernkernels.com/wp-content/uploads/2015/06/popcorn.png"></img></span> <span slot="bagdisplay">{{bagdisp.commafy()}} bags popped</span> <span slot="bps">{{(Math.round(bps*10)/10).commafy()}} bps</span> <span slot="sideinfo"><stats/></span> </game>
         </div>
     </body>
     <script type="text/x-template" id="buyable-template"> <span id="buy">
@@ -72,9 +75,9 @@
                 <h5>
                     <slot name="subtitle">ERROR: NO TEXT SPECIFIED</slot>
                 </h5>
-                <div class="seven columns"> <button v-on:click="popsingle()" class="button button-primary" style="">
+                <div class="seven columns"> <a v-on:click="popsingle()" class="" style="">
           <slot name="button">ERROR: NO TEXT SPECIFIED</slot>
-          </slot>
+          </a>
         </button> <br>
                     <h5>
                         <slot name="bagdisplay">ERROR: NO TEXT SPECIFIED</slot>
