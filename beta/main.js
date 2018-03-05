@@ -150,10 +150,10 @@ Vue.component("buyable", {
     },
     color: function(price) {
       if(price<this.bagdisp) {
-        return {"background-color": "#42f45f"}
+        return {"background-color": "#3BEC10"}
       } else {
         let percent = (this.bagdisp/price)*100
-        return {"background-image": `linear-gradient(90deg, #42f45f, #42f45f ${percent}%, #33C3F0 0)`,"background-color": "#42f45f"}
+        return {"background-image": `linear-gradient(90deg, #3BEC10, #3BEC10 ${percent}%, #10B6EC 0)`,"background-color": "#3BEC10"}
       }
     }
   }

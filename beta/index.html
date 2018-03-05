@@ -40,17 +40,17 @@
 
 <body>
 
-    <body>
+    <body style="background-color: #FFFEF6">
         <div id="application" class="m-8 mt-2">
             <game> <span slot="title">Popcorn Clicker</span> <span slot="subtitle">Totally not a cookie clicker ripoff</span> <span slot="button"><img id="pop" src="https://southernkernels.com/wp-content/uploads/2015/06/popcorn.png"></img></span> <span slot="bagdisplay">{{bagdisp.commafy()}} bags popped</span> <span slot="bps">{{(Math.round(bps*10)/10).commafy()}} bps</span> <span slot="sideinfo"><stats/></span> </game>
         </div>
     </body>
-    <script type="text/x-template" id="buyable-template"> <span id="buy">
-    <span class="text-xl" v-bind:style="{filter: blur(purchase,index)}">{{purchase.name}}&#8211;<span class="text-lg" v-html="purchase.caption" ></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span><br> <button class="rounded h-10 pl-4 pr-4 text-white font-bold serif" v-bind:style="color(prices[index][0])" v-on:click="buy(purchase,index)">{{(Math.round(prices[index][0]*10)/10).commafy()}} bags of popcorn</button> </span>
+    <script type="text/x-template" id="buyable-template"> <span class="" id="buy">
+    <span class="text-xl newblack" v-bind:style="{filter: blur(purchase,index)}">{{purchase.name}}&#8211;<span class="text-lg" v-html="purchase.caption" ></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span><br> <button class="mb-4 rounded h-10 pl-4 pr-4 text-white font-bold serif" v-bind:style="color(prices[index][0])" v-on:click="buy(purchase,index)">{{(Math.round(prices[index][0]*10)/10).commafy()}} bags of popcorn</button> </span>
     </script>
     <script type="text/x-template" id="stats-template">  <span class="">
-          <h1 style="font-size: 50pt" class="serif font-thin">Stats</h1>
-<h6 class="text-lg font-normal sans">You currently own {{calc("bought").commafy()}} things. In total, they are worth {{calc("money").commafy()}}
+          <h1 style="font-size: 50pt" class="newblack serif font-thin">Stats</h1>
+<h6 class="newblack text-lg font-normal sans">You currently own {{calc("bought").commafy()}} things. In total, they are worth {{calc("money").commafy()}}
 						bags of popcorn.</h6>
             <div v-if="cheatmode" class="mt-4">
             <button class="mr-2 p-2 text-white font-bold rounded-lg bg-blue hover:bg-blue-dark" onclick="app.bps=parseInt(prompt('BPS?'))">BPS</button>
@@ -61,20 +61,20 @@
 </span></script>
     <script type="text/x-template" id="app-template">
         <div class="grid-container">
-                <h1 class="font-light serif text-5xl">
+                <h1 class="font-light newblack serif text-5xl">
                     <slot name="title">ERROR: NO TEXT SPECIFIED</slot>
                 </h1>
-                <h5 class="font-light sans text-xl">
+                <h5 class="newblack font-light sans text-xl">
                     <slot name="subtitle">ERROR: NO TEXT SPECIFIED</slot>
                 </h5>
                 <div class="grid-66"> <a v-on:click="popsingle()" class="" style="">
           <slot name="button">ERROR: NO TEXT SPECIFIED</slot>
           </a>
         </button> <br>
-                    <h5 class="font-light sans text-xl">
+                    <h5 class="newblack font-light sans text-xl">
                         <slot name="bagdisplay">ERROR: NO TEXT SPECIFIED</slot>
                     </h5>
-                    <h5 class="font-light sans text-xl mt-4 mb-4">
+                    <h5 class="newblack font-light sans text-xl mt-4 mb-4">
                         <slot name="bps">ERROR: NO TEXT SPECIFIED</slot>
                     </h5>
                     <li v-for="(purchase,index) in buyable" style="font-size: 13pt;">
