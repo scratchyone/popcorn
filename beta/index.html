@@ -11,6 +11,7 @@
 
   gtag('config', 'UA-112799514-1');
 </script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 <link rel="apple-touch-icon" sizes="180x180" href="/popcorn/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/popcorn/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/popcorn/favicon-16x16.png">
@@ -51,7 +52,10 @@
     <script type="text/x-template" id="stats-template">  <span class="">
           <h1 style="font-size: 50pt" class="newblack serif font-thin">Stats</h1>
 <h6 class="newblack text-lg font-normal sans">You currently own {{calc("bought").commafy()}} things. In total, they are worth {{calc("money").commafy()}}
-						bags of popcorn.</h6>
+						bags of popcorn.<br><br>Calculate how long it will take to reach a certain amount of bags:</h6><br>
+							<div class="flex flex-row w-auto rounded border border-black">
+	<button onclick='x="It will take "+Math.round((document.getElementById("calc").value.replace(/\,/g,"")-app.bags)/app.bps)+" seconds, or "+Math.round((document.getElementById("calc").value.replace(/\,/g,"")-app.bags)/app.bps/60)+" minutes.";if((parseInt(document.getElementById("calc").value.replace(/\,/g,""))||0)<=app.bags){x="You already have that much!"};notie.alert({ type: "info", text: x });document.getElementById("calc").value=""' class="bg-blue p-2 rounded-l hover:bg-blue-light text-white"><i class="far fa-clock"></i></button><input id="calc" class="p-2 w-32 flex-1 border rounded">
+</div>
             <div v-if="cheatmode" class="mt-4">
             <button class="mr-2 p-2 text-white font-bold rounded-lg bg-blue hover:bg-blue-dark" onclick="app.bps=parseInt(prompt('BPS?'))">BPS</button>
             <button class="mr-2 p-2 text-white font-bold rounded-lg bg-blue hover:bg-blue-dark" onclick="app.bags=parseInt(prompt('Bags?'))">Bags</button>
