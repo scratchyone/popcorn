@@ -247,8 +247,14 @@ function dispa() {
 }
 
 function baga() {
+  if(Date.now()-oldtime>1200) {
+    app.bags+=(Date.now() - oldtime) / 1000 * app.bps
+    oldtime = Date.now() - 1;
+    console.log("Timing error")
+  } else {
   oldtime = Date.now() - 1;
   app.bags += app.bps;
+  }
   window.setTimeout(updatetitle(),0)
 }
 
@@ -312,7 +318,6 @@ function updatetitle() {
   let chosenitem=0;
   let title=""
   for(let i=0;i<app.prices.length;i++) {
-    console.log(i)
     if(chosenitem==0&&app.prices[i][0]>app.bags) {
       chosenitem=Math.round(app.prices[i][0]);
     }
@@ -320,7 +325,6 @@ function updatetitle() {
     if(chosenitem!=0) {
       title=`(${Math.round((app.bags/chosenitem)*100)}%) `
     }
-    console.log(chosenitem+"title")
   title=title+(Math.round(app.bags * 10) / 10).commafy() + " bags"
   document.title = title;
 }
