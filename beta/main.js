@@ -5,7 +5,6 @@ String.prototype.commafy = function() {
     return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
   });
 };
-let cheater=0
 Number.prototype.commafy = function() {
   return String(this).commafy();
 };
@@ -78,7 +77,7 @@ var prices = [
   [15, 0.1],
   [100, 1],
   [500, 0],
-  [1000, 10],
+  [1100, 10],
   [13000, 0],
   [15000, 100],
   [50000, 600],
@@ -127,7 +126,7 @@ Vue.component("buyable", {
           this.bps += this.prices[index][1];
           this.purchased[index] += 1;
           this.totalspent += this.prices[index][0];
-          this.prices[index][0] += this.prices[index][0] * 0.05;
+          this.prices[index][0] += this.prices[index][0] * 0.15;
           upgrade();
         }
       } else {
@@ -296,9 +295,7 @@ function load() {
     app.totalspent = savefile[3];
     app.prices = savefile[4];
     app.cheatmode=savefile[6];
-    cheater=savefile[7];
-    if(cheater){document.body.style.backgroundImage='url(\'cheaterwhite.png\')'}
-    if (savefile[5]<needreset) {
+    if (savefile[5]< needreset) {
     let version=savefile[5];
       swal("Don't click away!", "Since you last played, there was an update that might break your game. You might own things that you never bought, or not own things that you did buy. Just click \"Fix it\", and the intelligent repair system should resolve all of the conflicts.", "warning", {
           buttons: {
@@ -337,7 +334,6 @@ function reset() {
   app.bps = 0;
   app.bags = 0;
   app.prices = prices;
-  cheater=0
   app.totalspent = 0;
   app.purchased = [];
   for (let i = 0; i < buyable.length; i++) {
@@ -369,7 +365,7 @@ function resetfix() {
 }
 
 function save() {
-  const savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices, needreset,app.cheatmode,cheater];
+  const savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices, needreset,app.cheatmode];
   createCookie("pcsave", btoa(JSON.stringify(savee)));
   //console.log("saved!");
 }

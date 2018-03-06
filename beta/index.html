@@ -39,7 +39,7 @@
     <title>Popcorn Clicker</title>
 </head>
 
-<body style="background-size:150px">
+<body>
 
     <body style="background-color: #FFFEF6">
         <div id="application" class="m-8 mt-2">
@@ -57,8 +57,8 @@
 	<button onclick='x="It will take "+Math.round((document.getElementById("calc").value.replace(/\,/g,"")-app.bags)/app.bps)+" seconds, or "+Math.round((document.getElementById("calc").value.replace(/\,/g,"")-app.bags)/app.bps/60)+" minutes.";if((parseInt(document.getElementById("calc").value.replace(/\,/g,""))||0)<=app.bags){x="You already have that much!"};notie.alert({ type: "info", text: x });document.getElementById("calc").value=""' class="bg-blue p-2 rounded-l hover:bg-blue-light text-white"><i class="far fa-clock"></i></button><input id="calc" class="p-2 w-32 flex-1 border rounded">
 </div>
             <div v-if="cheatmode" class="mt-4">
-            <button class="mr-2 p-2 text-white font-bold rounded-lg bg-blue hover:bg-blue-dark" onclick="cheater=1;document.body.style.backgroundImage='url(\'cheaterwhite.png\')';app.bps=parseInt(prompt('BPS?'))">BPS</button>
-            <button class="mr-2 p-2 text-white font-bold rounded-lg bg-blue hover:bg-blue-dark" onclick="cheater=1;document.body.style.backgroundImage='url(\'cheaterwhite.png\')';app.bags=parseInt(prompt('Bags?'))">Bags</button>
+            <button class="mr-2 p-2 text-white font-bold rounded-lg bg-blue hover:bg-blue-dark" onclick="app.bps=parseInt(prompt('BPS?'))">BPS</button>
+            <button class="mr-2 p-2 text-white font-bold rounded-lg bg-blue hover:bg-blue-dark" onclick="app.bags=parseInt(prompt('Bags?'))">Bags</button>
             <button class="mr-2 p-2 text-white font-bold rounded-lg bg-blue hover:bg-blue-dark" onclick="eval(prompt('Code?'))">Exec</button>
             <button class="mr-2 p-2 text-white font-bold rounded-lg bg-blue hover:bg-blue-dark" onclick="reset()">Reset</button>
             </div>
