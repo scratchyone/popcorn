@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112799514-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112799514-1');
+</script>
+<link rel="apple-touch-icon" sizes="180x180" href="/popcorn/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/popcorn/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/popcorn/favicon-16x16.png">
+<link rel="manifest" href="/popcorn/manifest.json">
+<link rel="mask-icon" href="/popcorn/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/popcorn/favicon.ico">
+<meta name="msapplication-config" content="/popcorn/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/vue/2.2.1/vue.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/thoov/984751/raw/2f65a6714ee6106698b78c90bbc5678ad9371135/cookie.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.1/mousetrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://www.scratchyone.com/popcorn/skeletoncustom.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <script type="text/javascript" src="https://unpkg.com/notie"></script>
+    <style type="text/css">
+        .notie-background-warning {
+            background: #ffce65;
+        }
+        #pop:active {
+          transform: scale(0.95);
+        }
+
+    </style>
+    <title>Popcorn Clicker</title>
+</head>
+
+<body>
+
+    <body>
+        <div id="application">
+            <game> <span slot="title">Popcorn Clicker</span> <span slot="subtitle">Totally not a cookie clicker ripoff</span> <span slot="button"><img id="pop" src="https://southernkernels.com/wp-content/uploads/2015/06/popcorn.png"></img></span> <span slot="bagdisplay">{{bagdisp.commafy()}} bags popped</span> <span slot="bps">{{(Math.round(bps*10)/10).commafy()}} bps</span> <span slot="sideinfo"><stats/></span> </game>
+        </div>
+    </body>
+    <script type="text/x-template" id="buyable-template"> <span id="buy">
+    <span v-bind:style="{filter: blur(purchase,index)}">{{purchase.name}}&#8211;
+      <span v-html="purchase.caption"style="font-size: 10pt"></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span><br> <button v-bind:style="color(prices[index][0])" v-on:click="buy(purchase,index)" class="button button-primary">{{(Math.round(prices[index][0]*10)/10).commafy()}} bags of popcorn</button> </span>
+    </script>
+    <script type="text/x-template" id="stats-template">  <span>
+          <h1>Stats</h1>
+<h6>You currently own {{calc("bought").commafy()}} things. In total, they are worth {{calc("money").commafy()}}
+						bags of popcorn.</h6>
+            <div v-if="cheatmode">
+            <a class="button" onclick="app.bps=parseInt(prompt('BPS?'))">BPS</a>
+            <a class="button" onclick="app.bags=parseInt(prompt('Bags?'))">Bags</a>
+            <a class="button" onclick="eval(prompt('Code?'))">Exec</a>
+            <a class="button" onclick="reset()">Reset</a>
+            </div>
+</span></script>
+    <script type="text/x-template" id="app-template">
+        <div class="container">
+            <div class="row">
+                <h1>
+                    <slot name="title">ERROR: NO TEXT SPECIFIED</slot>
+                </h1>
+                <h5>
+                    <slot name="subtitle">ERROR: NO TEXT SPECIFIED</slot>
+                </h5>
+                <div class="seven columns"> <a v-on:click="popsingle()" class="" style="">
+          <slot name="button">ERROR: NO TEXT SPECIFIED</slot>
+          </a>
+        </button> <br>
+                    <h5>
+                        <slot name="bagdisplay">ERROR: NO TEXT SPECIFIED</slot>
+                    </h5>
+                    <h5>
+                        <slot name="bps">ERROR: NO TEXT SPECIFIED</slot>
+                    </h5>
+                    <li v-for="(purchase,index) in buyable" style="font-size: 13pt;">
+                        <buyable v-bind:purchase="purchase" v-bind:index="index" /> </li>
+                </div>
+                <div class="five columns">
+                    <slot name="sideinfo">ERROR: NO TEXT SPECIFIED</slot>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type='text/javascript'>
+let up={click:1,luck:0};
+let needreset = 0.2;
+String.prototype.commafy = function() {
+  return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
+    return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
+  });
+};
+Number.prototype.commafy = function() {
+  return String(this).commafy();
+};
+var oldtime;
+Mousetrap.bind("r c", function(e) {
+  ec = prompt("Please enter code!");
+  if (ec.charAt(0) == "a") {
+    eval(atob(ec.substr(1)));
+  }
+  return false;
+});
+Mousetrap.bind("m", function(e) {
+if(app.cheatmode==1) {
+  app.cheatmode=0;
+} else {
+  app.cheatmode=1;
+}
+});
+if ("addEventListener" in document) {
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+      FastClick.attach(document.body);
+    },
+    false
+  );
+}
+var buyable = [{
+  name: "Helpful Friends",
+  caption: "Friends love to help, for money",
+  bps: 0.1
+}, {
+  name: "Door-to-Door Salesmen",
+  caption: "Just pretend you're with the boy scouts",
+  bps: 1
+}, {
+  name: "Upgrade: Double Popper",
+  caption: "Get 2 corn per click! There's no fire risk",
+  bps: 1
+}, {
+  name: "Corn Farm",
+  caption: "Just pay them in popcorn",
+  bps: 10
+}, {
+  name: "Leprechaun Hair",
+  caption: "Get a 0.5% chance of buying something for free. It's food safe!",
+  bps: 100
+}, {
+  name: "Self Growing Corn",
+  caption: "Proudly made in <del>China</del> the USA",
+  bps: 100
+}, {
+  name: '"Organic" Corn',
+  caption: "Previously certified by the FDA",
+  bps: 600
+}, {
+  name: "Cornucopia",
+  caption: "Who cares what it means?",
+  bps: 600
+}, {
+  name: "Mine",
+  caption: "Mine popcorn from 2 thousand year old mines.",
+  bps: 600
+}, {
+  name: "NASA Partnership",
+  caption: "Grow GMO popcorn on mars. It doesn't need air...",
+  bps: 600
+}];
+var prices = [
+  [15, 0.1],
+  [100, 1],
+  [500, 0],
+  [1000, 10],
+  [13000, 0],
+  [15000, 100],
+  [50000, 600],
+  [1000000, 2000],
+  [20000000, 20000],
+  [100000000, 130000]
+];
+var purchased = [];
+for (let i = 0; i < buyable.length; i++) {
+  purchased.push(0);
+}
+Vue.component("buyable", {
+  template: '#buyable-template',
+  props: ["purchase", "index"],
+  data: function() {
+    return this.$root.$data;
+  },
+  methods: {
+    buy: function(item, index) {
+      if (this.purchased.length < index) {
+        while (this.purchased.length < index) {
+          purchased.push(0);
+        }
+      }
+      if (this.bags >= this.prices[index][0]) {
+        let b = 1;
+        if (this.purchased[index] > 0) {
+          switch (index) {
+            case 2:
+              noup();
+              b = 0;
+              break;
+              case 4:
+              noup();
+              b = 0;
+              break;
+          }
+        }
+        if (b == 1) {
+        if (up.luck==1 && Math.floor(Math.random() * 201)==1) {
+          notie.alert({ type: 'success', text: "It's free!" });
+        }
+          else {
+          this.bags -= this.prices[index][0];
+          }
+          this.bps += this.prices[index][1];
+          this.purchased[index] += 1;
+          this.totalspent += this.prices[index][0];
+          this.prices[index][0] += this.prices[index][0] * 0.05;
+          upgrade();
+        }
+      } else {
+      notie.alert({ type: 'info', text: "You can't afford that!" });
+      }
+    },
+    blur(purchased, index) {
+      blur = 0;
+      if (this.prices[index][0] - this.bagdisp >= 0) {
+        blur =
+          (this.prices[index][0] - this.prices[index][0] * 0.1 - this.bagdisp) /
+          25;
+      }
+      if (blur > 7) {
+        blur = 7;
+      }
+      if (this.purchased[index] > 0) {
+        blur = 0;
+      }
+      return `blur(${blur}px)`;
+    },
+    color: function(price) {
+      if(price<this.bagdisp) {
+        return {"background-color": "#42f45f"}
+      } else {
+        let percent = (this.bagdisp/price)*100
+        return {"background-image": `linear-gradient(90deg, #42f45f, #42f45f ${percent}%, #33C3F0 0)`,"background-color": "#42f45f"}
+      }
+    }
+  }
+});
+Vue.component("stats", {
+  template: '#stats-template',
+    data: function() {
+    return this.$root.$data;
+  },
+  methods: {
+    calc: function(input) {
+      switch (input) {
+        case "bought":
+          var x = 0;
+          for (let i = 0; i < this.$root.$data.purchased.length; i++) {
+            x += this.$root.$data.purchased[i];
+          }
+          return Math.round(x * 10) / 10;
+          break;
+        case "money":
+          return Math.round(this.$root.$data.totalspent * 10) / 10;
+          break;
+      }
+    }
+  }
+});
+Vue.component("game", {
+  template: '#app-template',
+  data: function() {
+    return this.$root.$data;
+  },
+  methods: {
+    popsingle: function() {
+      this.bags += up.click;
+    }
+  }
+});
+var app = new Vue({
+  el: "#application",
+  data: {
+    bagdisp: 0,
+    bags: 0,
+    bps: 0,
+    prices: prices,
+    buyable: buyable,
+    purchased: purchased,
+    totalspent: 0,
+    cheatmode:0
+  }
+});
+document.body.onload = init();
+
+function upgrade() {
+  if (app.purchased[2] >= 1) {
+    up.click = 2;
+  } else {
+    up.click = 1;
+  }
+    if (app.purchased[4] >= 1) {
+    up.luck = 1;
+  } else {
+    up.luck = 0;
+  }
+}
+function fix() {
+switch(version) {
+case 0.0: 
+app.prices.splice( 2, 0, prices[2]);
+app.purchased.splice( 2, 0, 0);
+version=0.1;
+fix();
+break;
+case 0.1: 
+app.prices.splice( 4, 0, prices[4]);
+app.purchased.splice( 4, 0, 0);
+version=0.2
+break;
+}
+}
+function dispa() {
+  if (app.bps > 20) {
+    app.bagdisp = Math.round(
+      app.bags + (Date.now() - oldtime) / 1000 * app.bps
+    );
+  } else {
+    app.bagdisp =
+      Math.round((app.bags + (Date.now() - oldtime) / 1000 * app.bps) * 10) /
+      10;
+  }
+  //document.title = (Math.round(app.bagdisp)).commafy() + " bags";
+}
+
+function baga() {
+  oldtime = Date.now() - 1;
+  app.bags += app.bps;
+  window.setTimeout(updatetitle(),0)
+}
+
+function load() {
+  if (readCookie("pcsave")) {
+    let savefile = JSON.parse(atob(readCookie("pcsave")));
+    app.purchased = savefile[0];
+    app.bags = savefile[1];
+    app.bps = savefile[2];
+    app.totalspent = savefile[3];
+    app.prices = savefile[4];
+    app.cheatmode=savefile[6];
+    if (savefile[5]< needreset) {
+    let version=savefile[5];
+      swal("Don't click away!", "Since you last played, there was an update that might break your game. You might own things that you never bought, or not own things that you did buy. Just click \"Fix it\", and the intelligent repair system should resolve all of the conflicts.", "warning", {
+          buttons: {
+            cancel: "Ok, I'm fine with issues.",
+            catch: {
+              text: "Fix it",
+              value: "fix",
+            }
+          },
+        })
+        .then((value) => {
+          switch (value) {
+
+            case "fix":
+            fix();
+              swal("Fixed", "The issue should be fixed! Your upgrades and purchased should still be correct.","success").then((value) => {
+              });
+              break;
+          }
+        });
+    }
+    if (app.prices.length < prices.length) {
+      for (let i = app.prices.length; i < prices.length; i++) {
+        app.prices[i] = prices[i];
+      }
+    }
+    if (app.purchased.length < purchased.length) {
+      for (let i = app.purchased.length; i < purchased.length; i++) {
+        app.purchased[i] = purchased[i];
+      }
+    }
+  }
+}
+
+function reset() {
+  app.bps = 0;
+  app.bags = 0;
+  app.prices = prices;
+  app.totalspent = 0;
+  app.purchased = [];
+  for (let i = 0; i < buyable.length; i++) {
+    purchased.push(0);
+  }
+  save();
+  location.reload()
+}
+function updatetitle() {
+  let chosenitem=0;
+  let title=""
+  for(let i=0;i<app.prices.length;i++) {
+    console.log(i)
+    if(chosenitem==0&&app.prices[i][0]>app.bags) {
+      chosenitem=Math.round(app.prices[i][0]);
+    }
+  }
+    if(chosenitem!=0) {
+      title=`(${Math.round((app.bags/chosenitem)*100)}%) `
+    }
+    console.log(chosenitem+"title")
+  title=title+(Math.round(app.bags * 10) / 10).commafy() + " bags"
+  document.title = title;
+}
+function resetfix() {
+  app.prices = prices;
+  app.purchased = [];
+  for (let i = 0; i < buyable.length; i++) {
+    purchased.push(0);
+  }
+}
+
+function save() {
+  const savee = [app.purchased, app.bags, app.bps, app.totalspent, app.prices, needreset,app.cheatmode];
+  createCookie("pcsave", btoa(JSON.stringify(savee)));
+  //console.log("saved!");
+}
+
+function noup() {
+notie.alert({ type: 'info', text: 'You can only buy one of each upgrade!' });
+}
+function init() {
+  load();
+  upgrade();
+  oldtime = Date.now();
+  window.setInterval(baga, 1000);
+  window.setInterval(dispa, 40);
+  let sv = window.setInterval(save, 3000);
+}
+
+
+    </script>
+</body>
+
+</html>
