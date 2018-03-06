@@ -130,7 +130,11 @@ Vue.component("buyable", {
           upgrade();
         }
       } else {
-      notie.alert({ type: 'info', text: "You can't afford that!" });
+        x="You will be able to afford it in "+Math.round((this.prices[index][0]-app.bags)/app.bps)+" seconds, or "+Math.round(((this.prices[index][0]-app.bags)/app.bps/60)*10)/10+" minutes."
+      if(this.bps==0) {
+        x=""
+      }
+      notie.alert({ type: 'info', text: "You can't afford that! " +x });
       }
     },
     blur(purchased, index) {
