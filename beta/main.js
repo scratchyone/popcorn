@@ -130,10 +130,26 @@ Vue.component("buyable", {
           upgrade();
         }
       } else {
-        x="You will be able to afford it in "+Math.round((this.prices[index][0]-app.bags)/app.bps)+" seconds, or "+Math.round(((this.prices[index][0]-app.bags)/app.bps/60)*10)/10+" minutes."
-      if(this.bps==0) {
+        sp=(this.prices[index][0]-app.bags)/app.bps
+        x="You will be able to afford it in "+Math.round(sp)+" seconds."
+        if(Math.round(sp)>59) {
+          x="You will be able to afford it in "+Math.floor((sp/60))+" minutes, "+Math.round((sp))%60+" seconds."
+          if(Math.round(sp)%60==0) {
+          x="You will be able to afford it in "+Math.round((sp/60))+" minutes."
+          if(Math.floor(Math.round(sp)/60)==1) {
+          x="You will be able to afford it in 1 minute."
+          }
+          }
+          }
+        if(Math.round(sp)==1)
+        {
+        x="You will be able to afford it in 1 second."
+        }
+      if(this.bps==0||Math.round(sp)==0)
+      {
         x=""
       }
+        
       notie.alert({ type: 'info', text: "You can't afford that! " +x });
       }
     },
@@ -353,7 +369,7 @@ function init() {
   load();
   upgrade();
   oldtime = Date.now();
-  window.setInterval(baga, 1000);
+  bagarunner=window.setInterval(baga, 1000);
   window.setInterval(dispa, 40);
   let sv = window.setInterval(save, 3000);
 }
