@@ -172,8 +172,12 @@ Vue.component("buyable", {
       if(price<this.bagdisp) {
         return {"background-color": "#3BEC10"}
       } else {
+        if((this.bagdisp/price)*100<2) {
+          return {"background-color": "#10B6EC"}
+        } else {
         let percent = (this.bagdisp/price)*100
         return {"background-image": `linear-gradient(90deg, #3BEC10, #3BEC10 ${percent}%, #10B6EC 0)`,"background-color": "#3BEC10"}
+        }
       }
     }
   }
@@ -217,6 +221,7 @@ var app = new Vue({
     bagdisp: 0,
     bags: 0,
     bps: 0,
+    bpsmult:1,
     prices: prices,
     buyable: buyable,
     purchased: purchased,
@@ -256,11 +261,11 @@ break;
 function dispa() {
   if (app.bps > 20) {
     app.bagdisp = Math.round(
-      app.bags + (Date.now() - oldtime) / 1000 * app.bps
+      app.bags + (Date.now() - oldtime) / 1000 * (app.bps*app.bpsmult)
     );
   } else {
     app.bagdisp =
-      Math.round((app.bags + (Date.now() - oldtime) / 1000 * app.bps) * 10) /
+      Math.round((app.bags + (Date.now() - oldtime) / 1000 * (app.bps*app.bpsmult)) * 10) /
       10;
   }
   //document.title = (Math.round(app.bagdisp)).commafy() + " bags";
@@ -268,14 +273,17 @@ function dispa() {
 
 function baga() {
   if(Date.now()-oldtime>1200) {
-    app.bags+=(Date.now() - oldtime) / 1000 * app.bps
+    app.bags+=(Date.now() - oldtime) / 1000 * (app.bps*app.bpsmult)
     oldtime = Date.now() - 1;
     console.log("Timing error")
   } else {
   oldtime = Date.now() - 1;
-  app.bags += app.bps;
+  app.bags += (app.bps*app.bpsmult);
   }
   window.setTimeout(updatetitle(),0)
+  if(Date.now()-bpsmultreset>30000) {
+    app.bpsmult=1
+  }
 }
 
 function load() {
@@ -361,15 +369,43 @@ function save() {
   createCookie("pcsave", btoa(JSON.stringify(savee)));
   //console.log("saved!");
 }
+  function random(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+function golden() {
+hi=document.getElementById("golden")
+hi.style.top=random(100,window.innerHeight-100)+"px"
+hi.style.left=random(100,window.innerWidth-100)+"px"
+//alert(window.innerHeight+"eyghs"+hi.style.top)
+hi.className="show";
+setTimeout(function(){hi.className="hide"},7000)
+//document.getElementById("MyElement").classList.remove('MyClass');
 
+}
 function noup() {
 notie.alert({ type: 'info', text: 'You can only buy one of each upgrade!' });
 }
+function trygolden() {
+  if(random(0,500)==250) {
+    golden()
+  }
+}
+function goldenclick() {
+  document.getElementById("golden").style.visibility="none"
+  document.getElementById("golden").className="hide"
+  notie.alert({ type: 'success', text: '5x bps for 30 seconds!' });
+  app.bpsmult=5
+  bpsmultreset=Date.now()
+  
+}
+bpsmultreset=Date.now()
 function init() {
   load();
   upgrade();
   oldtime = Date.now();
   bagarunner=window.setInterval(baga, 1000);
   window.setInterval(dispa, 40);
+  window.setInterval(trygolden,10000)
   let sv = window.setInterval(save, 3000);
 }
