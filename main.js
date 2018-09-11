@@ -90,7 +90,7 @@ var prices = [
   {price: 15000, bps: 100},
   {price: 50000, bps: 600},
   {price: 1000000, bps: 2000},
-  {price:20000000 , bps: 20000},
+  {price: 20000000 , bps: 20000},
   {price: 100000000, bps: 130000},
 ];
 //reset purchases array
@@ -275,6 +275,10 @@ function fix() { //fix version incompatabilities. TAKE THAT COOKIE CLICKER
     case 0.2: //same as above
     console.log("0.2")
 app.prices=prices;
+app,purchased=[];
+for (let i = 0; i < buyable.length; i++) {
+  app.purchased.push(0);
+}
       break;
   }
 }
