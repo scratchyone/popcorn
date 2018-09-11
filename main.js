@@ -300,6 +300,7 @@ function dispa() { //set the constantly updating bags counter. ONLY FOR SHOW. No
           10
       ) / 10; //same as abouve, but roundes to nearest tenth
   }
+  window.requestAnimationFrame(dispa)
 }
 
 function baga() { //code to calculate the REAL bag counter. This one is used for purchases and stuff
@@ -446,7 +447,8 @@ function init() { //init function
   upgrade(); //detect upgrades
   oldtime = Date.now(); //prevent bagdisp from being broken
   bagarunner = window.setInterval(baga, 1000); //start setting bags
-  window.setInterval(dispa, 40); //start setting bagdisp
+  //window.setInterval(dispa, 40); //start setting bagdisp
+  window.requestAnimationFrame(dispa) //replacement. Should stop lag
   window.setInterval(trygolden, 10000); //try golden popcorn every 10 seconds
   let sv = window.setInterval(save, 3000); //save every 3 seconds
 }
