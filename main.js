@@ -1,5 +1,5 @@
 let up = { click: 1, luck: 0 };
-let needreset = 0.2;
+let needreset = 0.3;
 var oldtime;
 let cheater = 0;
 //functions to make it easier to read numbers. Thanks stackoverflow.
@@ -37,71 +37,61 @@ if ("addEventListener" in document) {
     false
   );
 }
-//everything you can buy. Bps means nothing
+//everything you can buy
 var buyable = [
   {
     name: "Helpful Friends",
-    caption: "Friends love to help, for money",
-    bps: 0.1
+    caption: "Friends love to help, for money"
   },
   {
     name: "Door-to-Door Salesmen",
-    caption: "Just pretend you're with the boy scouts",
-    bps: 1
+    caption: "Just pretend you're with the boy scouts"
   },
   {
     name: "Upgrade: Double Popper",
     caption: "Get 2 corn per click! There's no fire risk",
-    bps: 1
   },
   {
     name: "Corn Farm",
-    caption: "Just pay them in popcorn",
-    bps: 10
+    caption: "Just pay them in popcorn"
   },
   {
     name: "Leprechaun Hair",
-    caption: "Get a 0.5% chance of buying something for free. It's food safe!",
-    bps: 100
+    caption: "Get a 0.5% chance of buying something for free. It's food safe!"
   },
   {
     name: "Self Growing Corn",
-    caption: "Proudly made in <del>China</del> the USA",
-    bps: 100
+    caption: "Proudly made in <del>China</del> the USA"
   },
   {
     name: '"Organic" Corn',
-    caption: "Previously certified by the FDA",
-    bps: 600
+    caption: "Previously certified by the FDA"
   },
   {
     name: "Cornucopia",
-    caption: "Who cares what it means?",
-    bps: 600
+    caption: "Who cares what it means?"
   },
   {
     name: "Mine",
-    caption: "Mine popcorn from 2 thousand year old mines.",
-    bps: 600
+    caption: "Mine popcorn from 2 thousand year old mines."
   },
   {
     name: "NASA Partnership",
-    caption: "Grow GMO popcorn on mars. It doesn't need air...",
-    bps: 600
+    caption: "Grow GMO popcorn on mars. It doesn't need air..."
   }
 ];
-//prices. first item is price, second is bps
+//prices
 var prices = [
-  [15, 0.1],
-  [100, 1],
-  [500, 0],
-  [1000, 10],
-  [13000, 0],
-  [15000, 100],
-  [50000, 600],
-  [1000000, 2000],
-  [20000000, 20000],
-  [100000000, 130000]
+  {price: 15, bps: 0.1},
+  {price: 100, bps: 1},
+  {price: 500, bps: 0},
+  {price: 10000, bps: 10},
+  {price: 13000, bps: 0},
+  {price: 15000, bps: 100},
+  {price: 50000, bps: 600},
+  {price: 1000000, bps: 2000},
+  {price:20000000 , bps: 20000},
+  {price: 100000000, bps: 130000},
 ];
 //reset purchases array
 var purchased = [];
@@ -122,7 +112,7 @@ Vue.component("buyable", {
           purchased.push(0);
         }
       }
-      if (this.bags >= this.prices[index][0]) { //check if you can afford it
+      if (this.bags >= this.prices[index].price) { //check if you can afford it
         let b = 1; //if you can buy it
         if (this.purchased[index] > 0) { //if you already own at least one of the item you want to buy
           switch (index) { 
@@ -140,16 +130,16 @@ Vue.component("buyable", {
           if (up.luck == 1 && Math.floor(Math.random() * 201) == 1) { //if you have the luck upgrade and a random function gets the correct number
             notie.alert({ type: "success", text: "It's free!" }); // you get it for free
           } else {
-            this.bags -= this.prices[index][0]; // remove the bags
+            this.bags -= this.prices[index].price; // remove the bags
           }
-          this.bps += this.prices[index][1]; //add the purchase's bps to your bps. It's not calculated...
+          this.bps += this.prices[index].bps; //add the purchase's bps to your bps. It's not calculated...
           this.purchased[index] += 1; //remember you purchased it
-          this.totalspent += this.prices[index][0]; // add the price to your total amount of money spent, for stats
-          this.prices[index][0] += this.prices[index][0] * 0.05; //make it more expensive
+          this.totalspent += this.prices[index].price; // add the price to your total amount of money spent, for stats
+          this.prices[index].price += this.prices[index].price * 0.05; //make it more expensive
           upgrade(); // check if you bought an upgrade. If so, fix the upgrades object
         }
       } else { //you can't afford it
-        sp = (this.prices[index][0] - app.bags) / app.bps; //detect how long it will take to be able to afforf it
+        sp = (this.prices[index].price - app.bags) / app.bps; //detect how long it will take to be able to afforf it
         x = "You will be able to afford it in " + Math.round(sp) + " seconds."; //set output
         if (Math.round(sp) >= 60) { //if it's at least a minute until you can afford it
           x =
@@ -180,9 +170,9 @@ Vue.component("buyable", {
     },
     blur(purchased, index) { //function to blur out the things you cant afford
       blur = 0; //no blur
-      if (this.prices[index][0] - this.bagdisp >= 0) { //make sure it's not infinity
+      if (this.prices[index].price - this.bagdisp >= 0) { //make sure it's not infinity
         blur =
-          (this.prices[index][0] - this.prices[index][0] * 0.1 - this.bagdisp) /
+          (this.prices[index].price - this.prices[index].price * 0.1 - this.bagdisp) /
           25;
       }
       if (blur > 7) { //make sure it isnt too blurred
@@ -281,6 +271,10 @@ function fix() { //fix version incompatabilities. TAKE THAT COOKIE CLICKER
       app.prices.splice(4, 0, prices[4]);
       app.purchased.splice(4, 0, 0);
       version = 0.2;
+      break;
+    case 0.2: //same as above
+    console.log("0.2")
+app.prices=prices;
       break;
   }
 }
@@ -390,8 +384,8 @@ function updatetitle() {
   let chosenitem = 0; //next item you can afford
   let title = ""; // title to be set
   for (let i = 0; i < app.prices.length; i++) { //detect the next item you can afford
-    if (chosenitem == 0 && app.prices[i][0] > app.bags) {
-      chosenitem = Math.round(app.prices[i][0]);
+    if (chosenitem == 0 && app.prices[i].price > app.bags) {
+      chosenitem = Math.round(app.prices[i].price);
     }
   }
   if (chosenitem != 0) { //if there is a next item you can afford

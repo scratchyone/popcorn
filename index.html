@@ -47,7 +47,7 @@
         </div>
     </body>
     <script type="text/x-template" id="buyable-template"> <span class="" id="buy">
-    <span class="text-xl newblack" v-bind:style="{filter: blur(purchase,index)}">{{purchase.name}}&#8211;<span class="text-lg" v-html="purchase.caption" ></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span><br> <button class="mb-4 rounded h-10 pl-4 pr-4 text-white font-bold serif" v-bind:style="color(prices[index][0])" v-on:click="buy(purchase,index)">{{(Math.round(prices[index][0]*10)/10).commafy()}} bags of popcorn</button> </span>
+    <span class="text-xl newblack" v-bind:style="{filter: blur(purchase,index)}">{{purchase.name}}&#8211;<span class="text-lg" v-html="purchase.caption" ></span>—<b>{{purchased[index]}}</b> owned&nbsp;&nbsp;</span><br> <button class="mb-4 rounded h-10 pl-4 pr-4 text-white font-bold serif" v-bind:style="color(prices[index].price)" v-on:click="buy(purchase,index)">{{(Math.round(prices[index].price*10)/10).commafy()}} bags of popcorn</button> </span>
     </script>
     <script type="text/x-template" id="stats-template">  <span class="">
           <h1 style="font-size: 50pt" class="newblack serif font-thin">Stats</h1>
