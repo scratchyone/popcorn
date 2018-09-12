@@ -23,8 +23,7 @@ Mousetrap.bind("r c", function (e) {
 Mousetrap.bind("m", function (e) {
   if (app.cheatmode == 1) {
     app.cheatmode = 0;
-  }
-  else {
+  } else {
     app.cheatmode = 1;
   }
 });
@@ -129,8 +128,7 @@ Vue.component("buyable", {
         if (b == 1) { //if you can buy it
           if (up.luck == 1 && Math.floor(Math.random() * 201) == 1) { //if you have the luck upgrade and a random function gets the correct number
             notie.alert({ type: "success", text: "It's free!" }); // you get it for free
-          }
-          else {
+          } else {
             this.bags -= this.prices[index].price; // remove the bags
           }
           this.bps += this.prices[index].bps; //add the purchase's bps to your bps. It's not calculated...
@@ -139,8 +137,7 @@ Vue.component("buyable", {
           this.prices[index].price += this.prices[index].price * 0.05; //make it more expensive
           upgrade(); // check if you bought an upgrade. If so, fix the upgrades object
         }
-      }
-      else { //you can't afford it
+      } else { //you can't afford it
         sp = (this.prices[index].price - app.bags) / app.bps; //detect how long it will take to be able to afforf it
         x = "You will be able to afford it in " + Math.round(sp) + " seconds."; //set output
         if (Math.round(sp) >= 60) { //if it's at least a minute until you can afford it
@@ -188,12 +185,10 @@ Vue.component("buyable", {
     color: function (price) { //gradient for button
       if (price < this.bagdisp) { //if you can afford it, just be completely green
         return { "background-color": "#3BEC10" };
-      }
-      else {
+      } else {
         if (this.bagdisp / price * 100 < 2) { //if it's a really small percentage, just make it blue to reduce lag
           return { "background-color": "#10B6EC" };
-        }
-        else {
+        } else {
           let percent = this.bagdisp / price * 100;
           return {
             "background-image": `linear-gradient(90deg, #3BEC10, #3BEC10 ${percent}%, #10B6EC 0)`, //weird gradent code. I have no clue how it works. ask mdn
@@ -254,14 +249,12 @@ document.body.onload = init(); //trigger init function on body load
 function upgrade() { //detect upgrades
   if (app.purchased[2] >= 1) { //if you own item 2
     up.click = 2; //make the bags per click 2
-  }
-  else {
+  } else {
     up.click = 1;
   }
   if (app.purchased[4] >= 1) { //if you own item 4
     up.luck = 1; //used in buyable component
-  }
-  else {
+  } else {
     up.luck = 0;
   }
 }
@@ -305,22 +298,36 @@ function fix() { //fix version incompatabilities. TAKE THAT COOKIE CLICKER
 
 function dispa() { //set the constantly updating bags counter. ONLY FOR SHOW. Not used for purchases
   if (app.bps > 20) { //if you get more than 20 bps, dont show decimals
-    app.bagdisp = Math.round(
-      app.bags + (Date.now() - oldtime) / 1000 * (app.bps * app.bpsmult)
-    );
+    if ((Date.now() - oldtime) < 10800000) {
+      app.bagdisp = Math.round(
+        app.bags + (Date.now() - oldtime) / 1000 * (app.bps * app.bpsmult)
+      );
+
+    } else {
+      app.bagdisp = Math.round(
+        app.bags + 10800000() / 1000 * (app.bps * app.bpsmult)
+      );
+    }
     /*
     Get how long it has been since the last app.bags update in seconds
     Then, multiply that by the bps (multiplied the the bps multiplier in case of a golden popcorn)
     Then, add the app.bags to it
     Basically, guess how far along it should be based on how long it has been since the last app.bags update
     */
-  }
-  else {
-    app.bagdisp =
-      Math.round(
-        (app.bags + (Date.now() - oldtime) / 1000 * (app.bps * app.bpsmult)) *
-        10
-      ) / 10; //same as abouve, but roundes to nearest tenth
+  } else {
+    if ((Date.now() - oldtime) < 10800000) {
+      app.bagdisp =
+        Math.round(
+          (app.bags + (Date.now() - oldtime) / 1000 * (app.bps * app.bpsmult)) *
+          10
+        ) / 10; //same as above, but roundes to nearest tenth
+    } else {
+      app.bagdisp =
+        Math.round(
+          (app.bags + (10800000) / 1000 * (app.bps * app.bpsmult)) *
+          10
+        ) / 10; //same as above, but roundes to nearest tenth (limited to 3 hours)
+    }
   }
   window.requestAnimationFrame(dispa)
 }
@@ -330,8 +337,7 @@ function baga() { //code to calculate the REAL bag counter. This one is used for
     app.bags += (Date.now() - oldtime) / 1000 * (app.bps * app.bpsmult); //the same code as in the function for app.bagdisp. Just guess based on the bps and how long it has been since the last update
     oldtime = Date.now() - 1; //set the last updated time. It's set to 1 millesecond ago to prevent possible errors
     console.log("Timing error");
-  }
-  else if (Date.now() - oldtime >= 10800000) {
+  } else if (Date.now() - oldtime >= 10800000) {
     swal( //you were gone for too long, preventing working overnight
       "You were gone too long!",
       'You haven\'t opened this tab in 3 hours. After 3 hours, you stop gaining popcorn unless you go back to this tab. This is to prevent you from getting millions of popcorn overnight.',
@@ -339,8 +345,7 @@ function baga() { //code to calculate the REAL bag counter. This one is used for
     app.bags += 10800000 / 1000 * (app.bps * app.bpsmult); //the same code as in the function for app.bagdisp. Just guess based on the bps and how long it has been since the last update
     oldtime = Date.now() - 1; //set the last updated time. It's set to 1 millesecond ago to prevent possible errors
     console.log("Timing error, gone too long");
-  }
-  else {
+  } else {
     oldtime = Date.now() - 1; //set the last updated time. It's set to 1 millesecond ago to prevent possible errors
     app.bags += app.bps * app.bpsmult; //set app.bags to the bps times the bps multiplier
   }
