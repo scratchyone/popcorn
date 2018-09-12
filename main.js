@@ -1,5 +1,5 @@
 let up = { click: 1, luck: 0 };
-let needreset = 0.3;
+let needreset = 0.4;
 var oldtime;
 let cheater = 0;
 //functions to make it easier to read numbers. Thanks stackoverflow.
@@ -272,7 +272,7 @@ function fix() { //fix version incompatabilities. TAKE THAT COOKIE CLICKER
       app.purchased.splice(4, 0, 0);
       version = 0.2;
       break;
-    case 0.2: //same as above
+    case 0.2:
     console.log("0.2")
 app.prices=prices;
 app,purchased=[];
@@ -280,6 +280,8 @@ for (let i = 0; i < buyable.length; i++) {
   app.purchased.push(0);
 }
       break;
+      case 0.3:
+        app.prices=prices
   }
 }
 function dispa() { //set the constantly updating bags counter. ONLY FOR SHOW. Not used for purchases
