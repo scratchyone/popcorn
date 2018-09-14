@@ -19,6 +19,14 @@ Mousetrap.bind("r c", function (e) {
   }
   return false;
 });
+Mousetrap.bind("n c", function (e) { //remove cheat
+  ec = prompt("Please enter code!");
+  if (ec === "965204") {
+    app.cheater = false
+    cheater = false
+  }
+  return false;
+});
 //Cheatmode. Adds some buttons so that you can set bags, bps, run code, etc.
 Mousetrap.bind("m", function (e) {
   if (app.cheatmode == 1) {
